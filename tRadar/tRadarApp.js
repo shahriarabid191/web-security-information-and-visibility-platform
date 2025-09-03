@@ -2,7 +2,7 @@ const express = require('express'),
     app = express(),
     bodyparser = require('body-parser'),
     path = require('path'), 
-    PORT = 4000,
+    PORT = 5000,
     db = require('./models/db'),
     risksRoutes = require('./controllers/risks.controller');
 

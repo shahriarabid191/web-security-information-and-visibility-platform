@@ -1,0 +1,54 @@
+/* Page */
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    color: #000000;
+    background: #ffffff;
+}
+
+/* Headings */
+h2 {
+    text-align: center;
+}
+
+/* Space between sections */
+.risksActions,
+.risksSearch,
+.risksFilter,
+#riskFormContainer {
+    margin-bottom: 20px;
+}
+
+/* Inputs and buttons */
+input[type="text"],
+input[type="number"],
+input[type="button"],
+button {
+    padding: 4px 6px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+/* Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 2px solid #000000;
+    table-layout: fixed;   
+}
+
+th, td {
+    border-bottom: 2px solid #000000;
+    padding: 4px 8px;
+    text-align: left;
+    white-space: normal;
+    overflow-wrap: break-word;
+}
+
+
+
+
+
+
+
+

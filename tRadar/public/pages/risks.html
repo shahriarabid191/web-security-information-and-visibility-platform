@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Risks Management</title>
+  <link rel="stylesheet" href="/css/risks.css">
+</head>
+<body>
+
+<div class="risksPage"> 
+    <h2>Risks Management</h2>
+
+    <!-- Actions -->
+    <div class="risksActions">
+        <input type="button" id="showAllBtn" value="Show All Risks">
+        <input type="button" id="addNewRiskBtn" value="Add New Risk">
+    </div>
+
+    <!-- Filter by Severity -->
+    <div class="risksFilter">
+        <label for="severityMin">Severity Min:</label>
+        <input type="number" id="severityMin" min="1" max="100" placeholder="1">
+        <label for="severityMax">Severity Max:</label>
+        <input type="number" id="severityMax" min="1" max="100" placeholder="100">
+        <input type="button" id="filterBtn" value="Apply Filter">
+        <input type="button" id="clearFilterBtn" value="Clear Filter">
+    </div>
+
+    <!-- Search by ID -->
+    <div class="risksSearch">
+        <input type="text" id="searchRisk" placeholder="Search by ID">
+        <input type="button" id="searchRiskBtn" value="Search">
+        <input type="button" id="clearSearchBtn" value="Clear Search">
+    </div>
+
+    <!-- Add/Edit Risk Form -->
+    <div id="riskFormContainer" style="display:none;">
+        <form id="riskForm">
+            <input type="hidden" id="riskID" value="0">
+            <label for="riskName">Risk Name:</label>
+            <input type="text" id="riskName" required>
+            <label for="riskDes">Description:</label>
+            <input type="text" id="riskDes" required>
+            <label for="riskSeverity">Severity (1–100):</label>
+            <input type="number" id="riskSeverity" min="1" max="100" required>
+            <button type="submit">Save Risk</button>
+            <button type="button" id="formCancelBtn">Cancel</button>
+        </form>
+    </div>
+
+    <!-- Table of Risks -->
+    <table id="risksTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Severity</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="risksTableBody"></tbody>
+    </table>
+</div>
+
+<script src="/js/risks.js"></script>
+</body>
+</html>

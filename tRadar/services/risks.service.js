@@ -11,10 +11,16 @@ module.exports.getRiskByID = async (id) => {
     return row;
 }
 
+// Get filtered risks
+module.exports.getFilteredRisks = async (min, max) => {
+    const [rows] = await db.query("SELECT * FROM Risk WHERE riskSeverity BETWEEN ? AND ?", [min, max]);
+    return rows;
+}
+
 // Delete a risk
 module.exports.deleteRisk = async (id) => {
-    const [{affectedRows}] = await db.query("DELETE FROM Risk WHERE riskID = ?", [id])
-    return affectedRows;
+    const [response] = await db.query("DELETE FROM Risk WHERE riskID = ?", [id])
+    return response.affectedRows;
 }
 
 // Add a risk

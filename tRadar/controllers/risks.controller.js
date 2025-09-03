@@ -2,11 +2,30 @@ const express = require('express'),
     router = express.Router(),
     service = require('../services/risks.service')
 
-// Here, get req will look like http://localhost:4000/api/risks/   
+// Here, get req will look like http://localhost:PORT/api/risks/   
 router.get('/', async (req, res) => {
     const risks = await service.getAllRisks()
     res.send(risks)
 })
+
+// Get filtered risks
+router.get('/filtered', async (req, res) => {
+    const min = parseInt(req.query.min)
+    const max = parseInt(req.query.max)
+
+    if(isNaN(min) || isNaN(max)){
+        return res.status(400).json("Invalid min or max value")
+    }
+
+    const risks = await service.getFilteredRisks(min, max)
+
+    if (!risks || risks.length === 0){
+        res.status(404).json(`No risks found between severity ${min} and ${max}`)
+    } 
+    else{
+        res.send(risks)
+    }
+});
 
 // Get a risk by its ID
 router.get('/:id', async (req, res) => {
