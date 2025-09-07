@@ -1,4 +1,5 @@
 const express = require('express'),
+    connectToXBank = require('./services/wsClient.service'),
     app = express(),
     bodyparser = require('body-parser'),
     path = require('path'), 
@@ -31,3 +32,7 @@ db.query("SELECT 1")
             console.log(`Server running at http://localhost:${PORT}`));
     })
     .catch(err => console.log('DB connection failed. \n' + err));
+
+
+// starting webSocket connection
+connectToXBank();

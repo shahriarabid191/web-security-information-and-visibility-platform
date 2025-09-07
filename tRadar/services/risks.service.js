@@ -29,3 +29,24 @@ module.exports.addOrEditRisk = async (obj, id = 0) => {
         [id, obj.riskName, obj.riskDes, obj.riskSeverity])
     return data[0][0].affectedRows;
 }
+
+
+// checking if risk matches with event data from socket
+module.exports.checkRiskMatch = async (event) => {
+    if (!event || !event.eventName) return null; 
+
+    // matching the eventName with riskName in Risk table
+    const [risks] = await db.query(
+        "SELECT * FROM Risk WHERE riskName = ?",
+        [event.eventName]
+    );
+
+    if (risks.length > 0) {
+        return {
+            riskID: risks[0].riskID,
+            message: `Triggered by xBank event: ${event.eventName}, txnID: ${event.txnID || 'N/A'}, description: ${event.description || 'No description'}`
+        };
+    }
+
+    return null; // if no matching risk found
+};
