@@ -1,28 +1,45 @@
-const express = require('express'),
-    connectToXBank = require('./services/wsClient.service'),
-    app = express(),
-    bodyparser = require('body-parser'),
-    path = require('path'), 
-    PORT = 5000,
-    db = require('./models/db'),
-    risksRoutes = require('./controllers/risks.controller');
+const express = require('express');
+const session = require('express-session');
+const path = require('path');
+const db = require('./server/db/pool');
+const bodyparser = require('body-parser');
+const authRouter = require('./server/routes/auth');
+const bankRouter = require('./server/routes/bank');
+const risksRoutes = require('./controllers/risks.controller');
 
+const PORT = 3000;
 
-// Middleware
-app.use(bodyparser.json())
+const app = express();
+const __dirnameResolved = path.resolve();
 
+// --- parsers
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+// --- session (dev only)
+app.use(session({
+  secret: 'my_dev_secret',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { httpOnly: true, sameSite: 'lax', maxAge: 1000 * 60 * 60 }
+}));
+
+// --- static assets first
+app.use(express.static(path.join(__dirnameResolved, 'public')));
+
+// optional: redirect root to login page
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirnameResolved, 'public', 'login.html'));
+});
 app.use('/api/risks', risksRoutes)
 
-app.use((err, req, res, next) => {
-    console.log(err)
-    res.status(err.status || 500).send('Something went wrong!')
-})
+// --- routers FIRST so we can protect /dashboard.html
+app.use('/', authRouter);     // provides /login, /logout, /dashboard.html
+app.use('/api', authRouter);  // also available under /api if you prefer
+app.use('/api', bankRouter);  // /api/bank/signup
 
-app.use(express.static(path.join(__dirname, 'public'))); // Serving static files from public folder
-
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
+// --- 404
+app.use((req, res) => res.status(404).json({ message: 'Not Found' }));
 
 // Starting the server
 db.query("SELECT 1")
@@ -34,5 +51,8 @@ db.query("SELECT 1")
     .catch(err => console.log('DB connection failed. \n' + err));
 
 
-// starting webSocket connection
-connectToXBank();
+
+
+const { connectToXBank } = require('./services/wsClient.service');
+
+connectToXBank(); 

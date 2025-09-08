@@ -1,16 +1,28 @@
-const db = require('../models/db');
+const db = require('../server/db/pool'); 
+const { broadcastToAnalysts } = require('../services/wsNotiServer.service'); 
 
-module.exports.createAlert = async (alert) => {
+async function createAlert(alert) {
     if (!alert || !alert.riskID) return;
 
-    const cID = alert.cID || null;                  
-    const status = alert.alertStatus || 'NEW';      
+    const cID = alert.cID || null;
+    const status = alert.alertStatus || 'NEW';
 
-    await db.query(
-        "INSERT INTO Alert (riskID, cID, alertStatus, createdAt) VALUES (?, ?, ?, NOW())",
-        [alert.riskID, cID, status]
-    );
+    try {
+        // inserting alert into DB
+        await db.execute(
+            `INSERT INTO Alert (riskID, cID, alertStatus, createdAt)
+             VALUES (?, ?, ?, NOW())`,
+            [alert.riskID, cID, status]
+        );
 
-    console.log("Alert created:", alert);
+        console.log('[ALERT] Alert created:', alert);
 
-};
+        // broadcasting to all connected analyst dashboards
+        broadcastToAnalysts(alert);
+
+    } catch (err) {
+        console.error('[ALERT] Failed to create alert:', err);
+    }
+}
+
+module.exports = { createAlert };

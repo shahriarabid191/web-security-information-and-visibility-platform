@@ -33,22 +33,62 @@ button {
 table {
     width: 100%;
     border-collapse: collapse;
-    border: 2px solid #000000;
-    table-layout: fixed;   
+    table-layout: fixed;
+    border-radius: 6px;           
+    overflow: hidden;
+    border: 1px solid #d1d5db;    
+    background: #ffffff;
 }
 
-th, td {
-    border-bottom: 2px solid #000000;
-    padding: 4px 8px;
+/* Table header */
+th {
     text-align: left;
+    font-weight: 600;
+    padding: 10px 12px;
+    border-bottom: 1px solid #d1d5db;
+    background: #f9fafb;          
+    color: #111111;
+}
+
+/* Table cells */
+td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #e5e7eb; 
+    color: #111111;
     white-space: normal;
     overflow-wrap: break-word;
 }
 
+/* Row hover */
+tr:hover {
+    background: #f3f4f6;           
+}
 
+/* Alternate row shading */
+tr:nth-child(even) {
+    background: #ffffff;            
+}
 
+/* Table buttons */
+.table-btn {
+    padding: 4px 8px;
+    font-size: 13px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    margin-right: 5px;
+}
 
+.table-btn.edit {
+    background: #3b82f6;
+    color: #ffffff;
+}
 
+.table-btn.delete {
+    background: #ef4444;
+    color: #ffffff;
+}
 
-
-
+.table-btn:hover {
+    filter: brightness(0.9);
+}

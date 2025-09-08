@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>xBank — IT Dashboard</title>
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+  <header class="nav">
+    <div class="brand">xBank</div>
+    <nav class="right">
+      <a id="linkEvents">Events</a>
+      <a id="linkLock">Lock/Unlock</a>
+      <button id="logoutBtn" class="btn-small">Logout</button>
+    </nav>
+  </header>
+
+  <div class="page wrap">
+    <!-- Events -->
+    <div id="secEvents" class="card section">
+      <div class="row" style="justify-content:space-between;align-items:center;">
+        <h2>Events</h2>
+        <button id="btnReload" class="btn small">Reload</button>
+      </div>
+      <table>
+        <thead>
+          <tr><th>ID</th><th>When</th><th>Type</th><th>cID</th><th>uID</th><th>txnID</th><th>View</th></tr>
+        </thead>
+        <tbody id="eventsBody">
+          <tr><td colspan="7" class="muted">Click Reload to load events…</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Lock / Unlock by cID -->
+    <div id="secLock" class="card section">
+      <h2>Lock / Unlock Account</h2>
+      <div class="row">
+        <label>Customer ID (cID)</label>
+        <input id="inputCID" type="number" placeholder="Enter cID" />
+        <button id="btnFind" class="btn">Find Customer</button>
+      </div>
+      <div id="custInfo" class="muted" style="margin-top:8px;"></div>
+
+      <div id="lockBox" style="display:none;margin-top:10px;">
+        <div class="row">
+          <label>Reason (optional)</label>
+          <input id="lockReason" type="text" placeholder="Reason for locking (optional)" />
+        </div>
+        <div class="box-actions">
+          <button id="btnLock" class="btn">Lock</button>
+          <button id="btnUnlock" class="btn gray">Unlock</button>
+        </div>
+        <div id="lockMsg" class="msg"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Event Modal -->
+  <div id="eventModal" class="modal" aria-hidden="true">
+    <div class="box">
+      <h3 id="evTitle">Event</h3>
+      <div id="evMeta" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;"></div>
+      <pre id="evJson" style="max-height:300px;overflow:auto;background:#f6f6f6;padding:8px;border-radius:6px;"></pre>
+      <div class="box-actions">
+        <button id="btnCloseEv" class="btn gray">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/it-dashboard.js"></script>
+</body>
+</html>

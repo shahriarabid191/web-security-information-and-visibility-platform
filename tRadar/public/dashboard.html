@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>tRadar — Analyst Dashboard</title>
+  <link rel="stylesheet" href="/css/styles.css" />
+  <style>
+  body {
+    background-color: #fff; 
+  }
+
+  #alertsContainer {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    width: 300px;
+    z-index: 1000;
+  }
+  .alertCard {
+    background: #ffeded;
+    border: 1px solid #ff0000;
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    font-size: 14px;
+    animation: fadeIn 0.5s;
+    color: #000;
+  }
+  @keyframes fadeIn {
+    from {opacity:0; transform: translateY(-10px);}
+    to {opacity:1; transform: translateY(0);}
+  }
+
+  /* Fullscreen red blink */
+  #redBlink {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255,0,0,0.6);
+    pointer-events: none;
+    opacity: 0;
+    z-index: 2000;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  #acknowledgeBtn {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3000;
+    background-color: #fff;
+    color: #f00;
+    font-size: 18px;
+    border: 2px solid #f00;
+    padding: 12px 20px;
+    cursor: pointer;
+    display: none;
+  }
+</style>
+
+</head>
+<body>
+  <div class="card">
+    <h1>Analyst Dashboard</h1>
+    <p>You are logged in as Analyst.</p>
+    <button id="manRisks">Manage risks</button>
+    <button id="logoutBtn">Logout</button>
+    <p id="msg"></p>
+  </div>
+
+  <div id="alertsContainer"></div>
+  <div id="redBlink"></div>
+  <button id="acknowledgeBtn">Acknowledge Alert</button>
+
+  <script>
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      const res = await fetch('/logout');
+      const ok = res.ok;
+      document.getElementById('msg').textContent = ok ? 'Logged out' : 'Logout failed';
+      if (ok) setTimeout(() => { window.location.href = '/login.html'; }, 600);
+    });
+
+    document.getElementById("manRisks").onclick = () => window.location.href = "/risks.html";
+
+    const ws = new WebSocket('ws://localhost:10001'); // Analyst WS server
+
+    ws.onopen = () => console.log('[WS] Connected to alert server');
+    ws.onclose = () => console.log('[WS] Disconnected from alert server');
+    ws.onerror = (err) => console.error('[WS] Socket error', err);
+
+    let blinkInterval = null;
+
+    function startBlinking() {
+      if (blinkInterval) return; 
+      const blink = document.getElementById('redBlink');
+      blinkInterval = setInterval(() => {
+        blink.style.opacity = blink.style.opacity == 1 ? 0 : 1;
+      }, 500);
+      document.getElementById('acknowledgeBtn').style.display = 'block';
+    }
+
+    function stopBlinking() {
+      clearInterval(blinkInterval);
+      blinkInterval = null;
+      document.getElementById('redBlink').style.opacity = 0;
+      document.getElementById('acknowledgeBtn').style.display = 'none';
+    }
+
+    document.getElementById('acknowledgeBtn').onclick = stopBlinking;
+
+    ws.onmessage = (event) => {
+      const alert = JSON.parse(event.data);
+      console.log('[WS] New alert:', alert);
+
+      // alert card
+      const container = document.getElementById('alertsContainer');
+      const card = document.createElement('div');
+      card.className = 'alertCard';
+      card.textContent = `[${new Date().toLocaleTimeString()}] ${alert.message}`;
+      container.prepend(card);
+      setTimeout(() => card.remove(), 15000);
+
+      // starting persistent red flashing until acknowledged
+      startBlinking();
+    };
+  </script>
+</body>
+</html>

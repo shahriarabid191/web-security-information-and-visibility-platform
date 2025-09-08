@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>xBank — Customer</title>
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+  <!-- TOP NAV -->
+  <header class="nav">
+    <div class="brand">xBank</div>
+    <nav class="right">
+      <span id="navBalance" class="chip">Balance: --</span>
+      <a id="linkAccount">Account Info</a>
+      <button id="logoutBtn" class="btn-small">Logout</button>
+    </nav>
+  </header>
+
+  <div class="page">
+    <!-- CENTER CTA -->
+    <section class="hero">
+      <div class="hero-card">
+        <button id="openDeposit" class="btn-big">Deposit</button>
+        <button id="openWithdraw" class="btn-big">Withdraw</button>
+      </div>
+    </section>
+
+    <div class="wrap">
+      <!-- Account Info only -->
+      <div id="secAccount" class="card section">
+        <h2>Account Info</h2>
+        <div id="acctInfo" class="muted">Click “Account Info” to load…</div>
+
+        <div id="updateWrap" style="margin-top:14px;display:none;">
+          <h3>Change Password</h3>
+          <div class="row">
+            <label>Current Password</label>
+            <input id="curPass" type="password" placeholder="Current password" />
+          </div>
+          <div class="row">
+            <label>New Password</label>
+            <input id="newPass" type="password" placeholder="New password (min 8 chars)" />
+          </div>
+          <div class="box-actions">
+            <button id="btnChangePassword" class="btn">Change Password</button>
+          </div>
+          <div id="updateMsg" class="msg"></div>
+        </div>
+
+        <div style="margin-top:10px;">
+          <button id="btnToggleUpdate" class="btn small">Change Password</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL -->
+  <div id="modal" class="modal" aria-hidden="true">
+    <div class="box">
+      <h3 id="modalTitle">Action</h3>
+      <div class="row">
+        <label>Amount</label>
+        <input id="modalAmount" type="number" inputmode="decimal" step="0.01" placeholder="Enter amount" />
+      </div>
+      <div class="box-actions">
+        <button id="modalConfirm" class="btn">Confirm</button>
+        <button id="modalCancel" class="btn gray">Cancel</button>
+      </div>
+      <div id="modalMsg" class="msg"></div>
+    </div>
+  </div>
+
+  <script src="/js/dashboard.js"></script>
+</body>
+</html>

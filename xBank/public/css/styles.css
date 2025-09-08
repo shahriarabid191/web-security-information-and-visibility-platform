@@ -1,0 +1,145 @@
+/* =========================================
+   xBank — Global Styles (Customer + IT)
+   ========================================= */
+
+/* --- CSS Reset / Base --- */
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  background: #f4f6fb;
+  color: #0f172a;
+  line-height: 1.45;
+}
+
+/* --- Top Nav --- */
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 18px;
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
+  box-shadow: 0 2px 10px rgba(15,23,42,0.05);
+}
+.brand { font-weight: 800; letter-spacing: .2px; }
+.nav .right { display: flex; align-items: center; gap: 16px; }
+.nav a { cursor: pointer; text-decoration: none; color: #0f172a; font-weight: 600; }
+.nav a:hover { color: #1d4ed8; }
+.btn-small {
+  padding: 8px 14px; border: 0; border-radius: 10px; font-weight: 700;
+  background: #1d4ed8; color: #fff; cursor: pointer;
+}
+.btn-small:hover { background: #1b46c2; }
+
+/* --- Page Wrapper --- */
+.page { padding: 24px 16px; }
+.wrap  { max-width: 960px; margin: 0 auto; }
+
+/* --- Hero / CTA --- */
+.hero { display: flex; justify-content: center; margin: 24px 0; }
+.hero-card {
+  display: flex; gap: 18px; background: #fff; padding: 20px;
+  border-radius: 16px; box-shadow: 0 10px 30px rgba(15,23,42,0.08);
+}
+
+/* --- Chips / Badges --- */
+.chip {
+  display: inline-block; padding: 6px 10px;
+  background: #eef2ff; color: #1d4ed8; border-radius: 999px;
+  font-size: 13px; font-weight: 700;
+}
+
+/* --- Cards / Sections --- */
+.card {
+  background: #fff; border-radius: 16px; padding: 18px;
+  box-shadow: 0 14px 38px rgba(2,8,23,.06), 0 3px 8px rgba(2,8,23,.04);
+  max-width: 960px; margin: 16px auto;
+}
+.section { display: none; }
+.section.show { display: block; }
+h2 { margin: 0 0 12px 0; font-size: 20px; }
+
+/* --- Rows & Forms --- */
+.row { display: flex; align-items: center; gap: 12px; margin: 10px 0; }
+.row label { flex: 0 0 160px; font-weight: 700; color: #475569; }
+.row input, .row select {
+  flex: 1 1 auto;
+  padding: 11px 12px;
+  border: 1px solid #e5e7eb; border-radius: 12px;
+  outline: none; background: #fff;
+}
+.row input:focus, .row select:focus { border-color: #93c5fd; box-shadow: 0 0 0 4px rgba(59,130,246,0.12); }
+
+/* make buttons size to content (fixes full-width issue) */
+.row .btn { flex: 0 0 auto; width: auto; }
+
+/* --- Buttons --- */
+.btn, .btn.gray, .btn.small, .btn-big {
+  display: inline-block; border: 0; cursor: pointer; font-weight: 800;
+  border-radius: 12px;
+}
+.btn {
+  background: #1d4ed8; color: #fff; padding: 12px 18px;
+}
+.btn:hover { background: #1b46c2; }
+.btn.gray {
+  background: #e5e7eb; color: #0f172a; padding: 12px 18px;
+}
+.btn.gray:hover { background: #dce0e6; }
+.btn.small { padding: 8px 12px; font-size: 14px; }
+.btn-big { padding: 16px 22px; font-size: 18px; background: #1d4ed8; color: #fff; }
+.btn-big:hover { background: #1b46c2; }
+
+/* --- Messages --- */
+.msg { margin-top: 8px; font-weight: 700; }
+.msg.ok  { color: #16a34a; }
+.msg.err { color: #dc2626; }
+.muted { color: #64748b; }
+
+/* --- Tables --- */
+table { width: 100%; border-collapse: collapse; }
+thead th {
+  text-align: left; font-size: 13px; color: #64748b; font-weight: 800;
+  padding: 10px 8px; border-bottom: 1px solid #e5e7eb;
+}
+tbody td {
+  padding: 12px 8px; border-bottom: 1px solid #f1f5f9;
+}
+tbody tr:hover { background: #f9fbff; }
+.btn.small.view-btn { padding: 6px 10px; border-radius: 10px; }
+
+/* --- Modal --- */
+.modal {
+  position: fixed; inset: 0; display: none; align-items: center; justify-content: center;
+  background: rgba(2,8,23,0.45); z-index: 200;
+}
+.modal.show { display: flex; }
+.modal .box {
+  width: 100%; max-width: 520px; background: #fff; border-radius: 16px;
+  padding: 18px; box-shadow: 0 20px 60px rgba(2,8,23,.18);
+}
+.modal h3 { margin: 4px 0 12px 0; }
+.box-actions { display: flex; gap: 10px; align-items: center; }
+
+/* --- Utility --- */
+.hidden { display: none !important; }
+
+/* --- Responsive --- */
+@media (max-width: 720px) {
+  .nav .right { gap: 10px; }
+  .row { flex-direction: column; align-items: stretch; }
+  .row label { width: 100%; flex: 0 0 auto; }
+  .row .btn, .btn, .btn.gray, .btn-small { width: 100%; } /* mobile buttons full width */
+  .hero-card { flex-direction: column; }
+}
+
+/* === Remove number input spinners on amount === */
+#modalAmount::-webkit-outer-spin-button,
+#modalAmount::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+#modalAmount {
+  -moz-appearance: textfield;   /* Firefox */
+  appearance: textfield;        /* modern browsers */
+}

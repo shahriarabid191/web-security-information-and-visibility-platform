@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>tRadar — Analyst Login</title>
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+  <div class="card">
+    <h1>Analyst Login</h1>
+    <form id="loginForm">
+      <div class="row">
+        <label>Email</label>
+        <input type="email" name="email" required />
+      </div>
+      <div class="row">
+        <label>Password</label>
+        <input type="password" name="password" minlength="8" required />
+      </div>
+      <button type="submit">Login</button>
+      <p class="muted">Bank user? <a href="/signup_bank.html">Sign up</a></p>
+      <p id="msg"></p>
+    </form>
+  </div>
+  <script src="/js/tradar-auth.js"></script>
+</body>
+</html>
